@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connect Four Arena</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="background-glow"></div>
+  <main class="app">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">CPS3500 Final Demo</p>
+        <h1>Connect Four: HP Arena</h1>
+      </div>
+      <div class="controls">
+        <label for="aiEngine">AI Engine</label>
+        <select id="aiEngine">
+          <option value="chatgpt" selected>ChatGPT API (Default)</option>
+          <option value="local">Local Algorithm AI</option>
+        </select>
+
+        <label for="difficulty">AI Difficulty</label>
+        <select id="difficulty">
+          <option value="easy">Easy</option>
+          <option value="normal" selected>Normal</option>
+          <option value="hard">Hard</option>
+        </select>
+
+        <input id="modelInput" type="text" value="gpt-4.1-mini" placeholder="Model name (e.g. gpt-4.1-mini)" autocomplete="off" />
+        <button id="undoBtn" type="button">Undo</button>
+        <button id="restartBtn">Restart</button>
+      </div>
+    </header>
+
+    <section class="hud">
+      <article class="card player">
+        <h2>You (X/Red)</h2>
+        <div class="hp-row">
+          <div class="hp-track"><div id="playerHpBar" class="hp-fill player-fill"></div></div>
+          <span id="playerHpText">100</span>
+        </div>
+      </article>
+      <article class="card ai">
+        <h2>AI (O/Yellow)</h2>
+        <div class="hp-row">
+          <div class="hp-track"><div id="aiHpBar" class="hp-fill ai-fill"></div></div>
+          <span id="aiHpText">100</span>
+        </div>
+      </article>
+      <article class="card status-card">
+        <h2>Battle Status</h2>
+        <p id="statusText">Your turn: click any empty cell to place a piece.</p>
+        <p id="lastDamageText">No damage has been dealt yet.</p>
+      </article>
+    </section>
+
+    <section class="main-grid">
+      <div class="left-column">
+        <section class="board-section">
+          <div id="dropZone" class="drop-zone" aria-label="落子按钮区"></div>
+          <div id="board" class="board" aria-label="Connect Four 棋盘"></div>
+        </section>
+
+        <section class="rules">
+          <h3>Custom Rules</h3>
+          <ul>
+            <li>Free placement mode: both sides can place on any empty cell.</li>
+            <li>Connecting 4 or more pieces triggers an attack and does not end the match immediately.</li>
+            <li>Damage formula: <strong>12 + 8 × (line length - 3)</strong>. Longer lines deal more damage.</li>
+            <li>If one move creates multiple lines, damage stacks with a combo bonus.</li>
+            <li>After an attack, all pieces in successful lines are removed, then the match continues.</li>
+            <li>The match ends when either side's HP reaches 0.</li>
+          </ul>
+        </section>
+      </div>
+
+      <aside class="thoughts-column">
+        <details id="thoughtsPanel" class="thoughts" open>
+          <summary>AI Thoughts (click to collapse)</summary>
+          <div id="thoughtLog" class="thought-log" aria-live="polite"></div>
+        </details>
+      </aside>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
